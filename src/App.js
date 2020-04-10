@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   const [hasNFC, setHasNFC] = useState();
-  const [NFCLog, setNFCLog] = useState(["test 1"]);
+  const [NFCLog, setNFCLog] = useState([]);
 
   useEffect(() => {
     const scanButton = document.getElementById("scanButton");
@@ -31,7 +31,7 @@ function App() {
           log(`> Records: (${message.records.length})`);
           const { records } = message;
           records.forEach(record => {
-            log(`>> ${record}`)
+            log(`>> ${JSON.parse(record).toString()}`)
           });
         });
       } catch (error) {
