@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {const [hasNFC, setHasNFC] = useState();
+function App() {
+  const [hasNFC, setHasNFC] = useState();
   const [NFCLog, setNFCLog] = useState(["test 1"]);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ function App() {const [hasNFC, setHasNFC] = useState();
         reader.addEventListener("reading", ({ message, serialNumber }) => {
           log(`> Serial Number: ${serialNumber}`);
           log(`> Records: (${message.records.length})`);
+          const { records } = message;
+          records.forEach(record => {
+            log(`>> ${record}`)
+          });
         });
       } catch (error) {
         log("Argh! Scan Error " + error);
@@ -52,7 +57,7 @@ function App() {const [hasNFC, setHasNFC] = useState();
         <img src={logo} className="App-logo" alt="logo" />
         <button id="scanButton">Scan</button>
         <button id="writeButton">Write</button>
-        <p id="log" style={{maxWidth: '100%'}}></p>
+        <p id="log" style={{ maxWidth: "100%" }}></p>
         <button
           className="App-link"
           onClick={() => window.location.reload(true)}
