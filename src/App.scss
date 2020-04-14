@@ -12,8 +12,8 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
 .App-header {
+  transition: background-color 250ms;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,6 +22,16 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
+  &.started {
+    background-color: adjust-color($color: #282c34, $red: 30%);
+  }
+  &.new-card {
+    background-color: adjust-color($color: #282c34, $blue: 30%);
+  }
+  &.card-opened {
+    background-color: adjust-color($color: #282c34, $green: 30%);
+  }
 }
 
 .App-link {

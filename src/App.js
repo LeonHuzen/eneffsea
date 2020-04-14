@@ -7,6 +7,7 @@ function App() {
   const [hasNFC, setHasNFC] = useState();
   const [NFCLog, setNFCLog] = useState([]);
   const [currentCard, setCurrentCard] = useState();
+  const [gameState, setGameState] = useState("new-game");
 
   useEffect(() => {
     const scanButton = document.getElementById("scanButton");
@@ -17,12 +18,6 @@ function App() {
       //   .getElementById("log")
       //   .appendChild(document.createTextNode(`${message} \n`));
     };
-    var cards = document.querySelectorAll(".card");
-    cards.forEach((card) =>
-      card.addEventListener("click", function () {
-        card.classList.toggle("is-flipped");
-      })
-    );
     scanButton.addEventListener("click", async () => {
       log("User clicked scan button");
 
@@ -30,15 +25,28 @@ function App() {
         const reader = new NDEFReader();
         await reader.scan();
         log("> Scan started");
+        setGameState("started");
 
         reader.addEventListener("error", (error) => {
           log(`Argh! Read Error: ${error.message}`);
         });
 
         reader.addEventListener("reading", ({ message, serialNumber }) => {
+          setGameState("new-card");
           log(`> Serial Number: ${serialNumber}`);
           log(`> Records: (${message.records.length})`);
           setCurrentCard(serialNumber);
+          var cards = document.querySelectorAll(".card");
+          cards.forEach((card) =>
+            card.addEventListener("click", function () {
+              card.classList.toggle("is-flipped");
+              setGameState("card-opened");
+
+              setTimeout(() => {
+                setGameState("started");
+              }, 1000);
+            })
+          );
           // const { records } = message;
           // records.forEach((record) => {
           //   log(`>> ${JSON.parse(record).toString()}`);
@@ -63,9 +71,22 @@ function App() {
   }, [NFCLog, hasNFC, setNFCLog]);
   return (
     <div className={`App ${hasNFC ? "has-nfc" : ""}`}>
-      <header className="App-header">
+      <header className={`App-header ${gameState}`}>
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <button id="scanButton">Start the game</button>
+        {gameState === "new-game" && (
+          <button id="scanButton">Start the game</button>
+        )}
+        {gameState === "started" && <h1>Let's play</h1>}
+        {gameState === "new-card" && <h1>A wild card appeared...</h1>}
+        {gameState === "card-opened" && (
+          <h1>
+            It's a{" "}
+            {currentCard === "04:93:ab:e2:ac:5c:80"
+              ? "chance"
+              : "community chest"}{" "}
+            card!
+          </h1>
+        )}
         {/* <button id="writeButton">Write</button> */}
         <p id="log" style={{ maxWidth: "100%" }}></p>
         <div>
