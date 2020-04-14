@@ -44,7 +44,8 @@ function App() {
 
               setTimeout(() => {
                 setGameState("started");
-              }, 1000);
+                setCurrentCard('');
+              }, 5000);
             })
           );
           // const { records } = message;
