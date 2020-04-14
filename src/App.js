@@ -90,7 +90,7 @@ function App() {
         {/* <button id="writeButton">Write</button> */}
         <p id="log" style={{ maxWidth: "100%" }}></p>
         <div>
-          {currentCard === "04:93:ab:e2:ac:5c:80" && (
+          {true && (
             <div class="scene scene--card">
               <div class="card">
                 <div class="card__face card__face--front kans">Chance</div>
