@@ -6,15 +6,16 @@ import "./App.scss";
 function App() {
   const [hasNFC, setHasNFC] = useState();
   const [NFCLog, setNFCLog] = useState([]);
+  const [currentCard, setCurrentCard] = useState();
 
   useEffect(() => {
     const scanButton = document.getElementById("scanButton");
     const writeButton = document.getElementById("writeButton");
     const log = (message) => {
       console.log(message);
-      document
-        .getElementById("log")
-        .appendChild(document.createTextNode(`${message} \n`));
+      // document
+      //   .getElementById("log")
+      //   .appendChild(document.createTextNode(`${message} \n`));
     };
     var cards = document.querySelectorAll(".card");
     cards.forEach((card) =>
@@ -37,6 +38,7 @@ function App() {
         reader.addEventListener("reading", ({ message, serialNumber }) => {
           log(`> Serial Number: ${serialNumber}`);
           log(`> Records: (${message.records.length})`);
+          setCurrentCard(serialNumber);
           // const { records } = message;
           // records.forEach((record) => {
           //   log(`>> ${JSON.parse(record).toString()}`);
@@ -67,22 +69,26 @@ function App() {
         {/* <button id="writeButton">Write</button> */}
         <p id="log" style={{ maxWidth: "100%" }}></p>
         <div>
-          <div class="scene scene--card">
-            <div class="card">
-              <div class="card__face card__face--front kans">Chance</div>
-              <div class="card__face card__face--back kans">Go to jail.</div>
-            </div>
-          </div>
-          <div class="scene scene--card">
-            <div class="card">
-              <div class="card__face card__face--front algemeen-fonds">
-                Community chest
-              </div>
-              <div class="card__face card__face--back algemeen-fonds">
-                Get out of jail, free.
+          {currentCard === "04:93:ab:e2:ac:5c:80" && (
+            <div class="scene scene--card">
+              <div class="card">
+                <div class="card__face card__face--front kans">Chance</div>
+                <div class="card__face card__face--back kans">Go to jail.</div>
               </div>
             </div>
-          </div>
+          )}
+          {currentCard === "04:1a:aa:e2:ac:5c:81" && (
+            <div class="scene scene--card">
+              <div class="card">
+                <div class="card__face card__face--front algemeen-fonds">
+                  Community chest
+                </div>
+                <div class="card__face card__face--back algemeen-fonds">
+                  Get out of jail, free.
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {/* <button
           className="App-link"
