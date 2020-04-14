@@ -75,7 +75,7 @@ function App() {
       <header className={`App-header ${gameState}`}>
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         {gameState === "new-game" && (
-          <button id="scanButton">Start the game</button>
+          <a className="btn" id="scanButton">Start the game</a>
         )}
         {gameState === "started" && <h1>Let's play</h1>}
         {gameState === "new-card" && <h1>A wild card appeared...</h1>}
